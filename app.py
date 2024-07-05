@@ -3,7 +3,6 @@ import mysql.connector
 import pandas as pd
 from dotenv import load_dotenv
 import os
-from api_key import api_key
 import google.generativeai as genai
 
 # Load environment variables from .env file
