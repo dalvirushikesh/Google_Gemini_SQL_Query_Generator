@@ -6,20 +6,29 @@ import os
 from api_key import api_key
 import google.generativeai as genai
 
-
+# Load environment variables from .env file
 load_dotenv()
+
+# Fetch API key from environment variables
 api_key = os.getenv('api_key')
+
 # Configure Generative AI API
 genai.configure(api_key=api_key)
+
+# Fetch database details from environment variables
+MYSQL_HOST = os.getenv('MYSQL_HOST')
+MYSQL_USER = os.getenv('MYSQL_USER')
+MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
+MYSQL_DATABASE = os.getenv('MYSQL_DATABASE')
 
 # Function to fetch schema names from MySQL server
 def get_schema_names():
     try:
         conn = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='California@12',
-            database='information_schema'
+            host=MYSQL_HOST,
+            user=MYSQL_USER,
+            password=MYSQL_PASSWORD,
+            database=MYSQL_DATABASE
         )
         cursor = conn.cursor()
         cursor.execute("SELECT schema_name FROM information_schema.schemata")
@@ -34,10 +43,10 @@ def get_schema_names():
 def get_table_names(schema):
     try:
         conn = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='California@12',
-            database='information_schema'
+            host=MYSQL_HOST,
+            user=MYSQL_USER,
+            password=MYSQL_PASSWORD,
+            database=MYSQL_DATABASE
         )
         cursor = conn.cursor()
         cursor.execute(f"SELECT table_name FROM information_schema.tables WHERE table_schema = '{schema}'")
@@ -52,10 +61,10 @@ def get_table_names(schema):
 def get_column_names(schema, table):
     try:
         conn = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='California@12',
-            database='information_schema'
+            host=MYSQL_HOST,
+            user=MYSQL_USER,
+            password=MYSQL_PASSWORD,
+            database=MYSQL_DATABASE
         )
         cursor = conn.cursor()
         cursor.execute(f"SELECT column_name FROM information_schema.columns WHERE table_schema = '{schema}' AND table_name = '{table}'")
@@ -101,9 +110,9 @@ def clean_sql_query(sql_query):
 def execute_sql_query(sql_query):
     try:
         conn = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='California@12',
+            host=MYSQL_HOST,
+            user=MYSQL_USER,
+            password=MYSQL_PASSWORD,
             database='class'
         )
         cursor = conn.cursor()
